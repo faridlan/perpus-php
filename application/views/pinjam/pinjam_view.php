@@ -16,7 +16,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-primary">
-					<div class="box-header with-border"><?php if ($this->session->userdata('level') == 'Petugas') { ?>
+					<div class="box-header with-border"><?php if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') { ?>
 							<a href="transaksi/pinjam"><button class="btn btn-primary">
 									<i class="fa fa-plus"> </i> Tambah Pinjam</button></a>
 							<a data-toggle="modal" data-target="#TableBuku"><button class="btn btn-danger">
@@ -43,7 +43,7 @@
 										<th>Aksi</th>
 									</tr>
 								</thead>
-								<?php if ($this->session->userdata('level') == 'Petugas') { ?>
+								<?php if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') { ?>
 									<tbody>
 										<?php
 										$no = 1;
@@ -85,9 +85,9 @@
 															$date1 = date('Ymd');
 															$date2 = preg_replace('/[^0-9]/', '', $isi['tgl_balik']);
 															$diff = $date1 - $date2;
-															/*	$datetime1 = new DateTime($date1);
-												$datetime2 = new DateTime($date2);
-												$difference = $datetime1->diff($datetime2); */
+															$datetime1 = new DateTime($date1);
+															$datetime2 = new DateTime($date2);
+															$difference = $datetime1->diff($datetime2);
 															// echo $difference->days;
 															if ($diff > 0) {
 																echo $diff . ' hari';
@@ -103,9 +103,9 @@
 														?>
 													</center>
 												</td>
-												<td <?php if ($this->session->userdata('level') == 'Petugas') { ?>style="width:22%;" <?php } ?>>
+												<td <?php if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') { ?>style="width:22%;" <?php } ?>>
 													<center>
-														<?php if ($this->session->userdata('level') == 'Petugas') { ?>
+														<?php if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') { ?>
 															<a href="<?= base_url('transaksi/detailpinjam/' . $isi['pinjam_id']); ?>">
 																<button class="btn btn-primary" title="detail pinjam"><i class="fa fa-eye"></i></button></a>
 
@@ -194,9 +194,9 @@
 															?>
 														</center>
 													</td>
-													<td <?php if ($this->session->userdata('level') == 'Petugas') { ?>style="width:22%;" <?php } ?>>
+													<td <?php if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') { ?>style="width:22%;" <?php } ?>>
 														<center>
-															<?php if ($this->session->userdata('level') == 'Petugas') { ?>
+															<?php if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') { ?>
 																<a href="<?= base_url('transaksi/detailpinjam/' . $isi['pinjam_id']); ?>">
 																	<button class="btn btn-primary" title="detail pinjam"><i class="fa fa-eye"></i></button></a>
 
@@ -249,16 +249,15 @@
 				<div id="modal_body" class="modal-body fileSelection1">
 					<div class="report1" style="background-color: rgba(230, 230, 230, 0.5); padding: 10px;">
 						<p class="h3" style="margin: 0px;">Laporan Pertanggal</p>
-						<form action="<?php echo base_url('Transaksi/report'); ?>" method="POST">
+						<form target="_blank" action="<?php echo base_url('Transaksi/report'); ?>" method="POST">
 							<input type="hidden" name="nilaifilter" value="1">
 							<div class="row">
 								<div class="col-sm-4">
 									<div class="form-group">
 										<label>Status</label>
 										<select name="status" class="form-control" required="required">
-											<option>All</option>
-											<option>Dipinjam</option>
 											<option>Di Kembalikan</option>
+											<option>Dipinjam</option>
 										</select>
 									</div>
 									<div class="pull-left">
@@ -282,16 +281,15 @@
 					</div>
 					<div class="report1" style="background-color: rgba(230, 230, 230, 0.5); padding: 10px; margin-top: 10px;">
 						<p class="h3" style="margin: 0px;">Laporan Perbulan</p>
-						<form action="<?php echo base_url('Transaksi/report'); ?>" method="POST">
+						<form target="_blank" action="<?php echo base_url('Transaksi/report'); ?>" method="POST">
 							<input type="hidden" name="nilaifilter" value="2">
 							<div class="row" style="margin-top: 20px;">
 								<div class="col-sm-4">
 									<div class="form-group">
 										<label>Status</label>
 										<select name="status" class="form-control" required="required">
-											<option>All</option>
-											<option>Dipinjam</option>
 											<option>Di Kembalikan</option>
+											<option>Dipinjam</option>
 										</select>
 									</div>
 									<div class="pull-left">
@@ -333,16 +331,15 @@
 					</div>
 					<div class="report1" style="background-color: rgba(230, 230, 230, 0.5); padding: 10px; margin-top: 10px;">
 						<p class="h3" style="margin: 0px;">Laporan Pertahun</p>
-						<form action="<?php echo base_url('Transaksi/report'); ?>" method="POST">
+						<form target="_blank" action="<?php echo base_url('Transaksi/report'); ?>" method="POST">
 							<input type="hidden" name="nilaifilter" value="3">
 							<div class="row" style="margin-top: 20px;">
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label>Status</label>
 										<select name="status" class="form-control" required="required">
-											<option>All</option>
-											<option>Dipinjam</option>
 											<option>Di Kembalikan</option>
+											<option>Dipinjam</option>
 										</select>
 									</div>
 									<div class="pull-left">

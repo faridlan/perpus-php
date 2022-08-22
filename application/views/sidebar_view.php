@@ -29,7 +29,7 @@
       <br />
     </div>
     <ul class="sidebar-menu" data-widget="tree">
-      <?php if ($this->session->userdata('level') == 'Petugas') { ?>
+      <?php if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') { ?>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <li class="header">MAIN NAVIGATION</li>
         <li class="<?php if ($this->uri->uri_string() == 'dashboard') {
@@ -69,19 +69,21 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="
+            <?php if ($this->session->userdata('level') == 'root') { ?>
+              <li class="
             <?php if ($this->uri->uri_string() == 'user') {
-              echo 'active';
-            } ?>
+                echo 'active';
+              } ?>
             <?php if ($this->uri->uri_string() == 'user/tambah') {
-              echo 'active';
-            } ?>
+                echo 'active';
+              } ?>
             <?php if ($this->uri->uri_string() == 'user/edit/' . $this->uri->segment('3')) {
-              echo 'active';
-            } ?>">
-              <a href="<?php echo base_url('user'); ?>" class="cursor">
-                <i class="fa fa-user"></i> <span>Data Petugas</span></a>
-            </li>
+                echo 'active';
+              } ?>">
+                <a href="<?php echo base_url('user'); ?>" class="cursor">
+                  <i class="fa fa-user"></i> <span>Data Petugas</span></a>
+              </li>
+            <?php } ?>
             <li class=" 
             <?php if ($this->uri->uri_string() == 'anggota') {
               echo 'active';

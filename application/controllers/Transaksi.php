@@ -439,18 +439,18 @@ class Transaksi extends CI_Controller
 
 	public function report()
 	{
+		$status = $this->input->post('status');
 		$tanggalawal = $this->input->post('tanggalawal');
 		$tanggalakhir = $this->input->post('tanggalakhir');
 		$tahun1 = $this->input->post('tahun1');
 		$bulanawal = $this->input->post('bulanawal');
-		$bulanakhir = $this->input->post('bulanakhir');
 		$tahun2 = $this->input->post('tahun2');
 		$nilaifilter = $this->input->post('nilaifilter');
 
 		if ($nilaifilter == 1) {
 			$data['title'] = "Pengembalian Buku Berdasarkan Tanggal";
 			$data['subtitle'] = "Dari Tanggal : " . $tanggalawal . ' s/d ' . $tanggalakhir;
-			$data['datafilter'] = $this->M_Transaksi->filterbytanggal($tanggalawal, $tanggalakhir);
+			$data['datafilter'] = $this->M_Transaksi->filterbytanggal($tanggalawal, $tanggalakhir, $status);
 			$this->load->library('pdf');
 			$this->pdf->setPaper('A4', 'potrait');
 			$this->pdf->filename = "laporan-pengembalian-buku-berdasarkan-bulan.pdf";
@@ -458,7 +458,7 @@ class Transaksi extends CI_Controller
 		} elseif ($nilaifilter == 2) {
 			$data['title'] = "Pengembalian Buku Berdasarkan Bulan";
 			$data['subtitle'] = "Dari Bulan : " . $bulanawal . ' <br> Pada tahun : ' . $tahun1;
-			$data['datafilter'] = $this->M_Transaksi->filterbybulan($tahun1, $bulanawal, $bulanakhir);
+			$data['datafilter'] = $this->M_Transaksi->filterbybulan($tahun1, $bulanawal, $status);
 			$this->load->library('pdf');
 			$this->pdf->setPaper('A4', 'potrait');
 			$this->pdf->filename = "laporan-pengembalian-buku-berdasarkan-bulan.pdf";
@@ -466,7 +466,7 @@ class Transaksi extends CI_Controller
 		} elseif ($nilaifilter == 3) {
 			$data['title'] = "Pengembalian Buku Berdasarkan Tahun";
 			$data['subtitle'] = 'Tahun : ' . $tahun2;
-			$data['datafilter'] = $this->M_Transaksi->filterbytahun($tahun2);
+			$data['datafilter'] = $this->M_Transaksi->filterbytahun($tahun2, $status);
 			$this->load->library('pdf');
 			$this->pdf->setPaper('A4', 'potrait');
 			$this->pdf->filename = "laporan-pengembalian-buku-berdasarkan-bulan.pdf";

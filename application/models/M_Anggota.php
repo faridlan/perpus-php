@@ -94,4 +94,48 @@ class M_Anggota extends CI_Model
     }
     return false;
   }
+
+  function gettahun()
+  {
+    $query = $this->db->query("SELECT YEAR(tgl_bergabung) AS tahun FROM tbl_login WHERE level = 'Anggota' GROUP BY YEAR(tgl_bergabung) ORDER BY YEAR(tgl_bergabung) ASC");
+    return $query->result();
+  }
+
+  function filterbytanggal($tanggalawal, $tanggalakhir)
+  {
+    $this->db->select('tbl_login.*');
+    $this->db->where('level = "Anggota"');
+    $this->db->where('tgl_bergabung >=', $tanggalawal);
+    $this->db->where('tgl_bergabung <=', $tanggalakhir);
+    $this->db->order_by('kelas ASC');
+    $this->db->from('tbl_login');
+    $query = $this->db->get();
+
+    return $query->result();
+  }
+
+  function filterbybulan($tahun1, $bulanawal)
+  {
+    $this->db->select('tbl_login.*');
+    $this->db->where('level = "Anggota"');
+    $this->db->where('year(tgl_bergabung)', $tahun1);
+    $this->db->where('MONTH(tgl_bergabung)', $bulanawal);
+    $this->db->order_by('kelas ASC');
+    $this->db->from('tbl_login');
+    $query = $this->db->get();
+
+    return $query->result();
+  }
+
+  function filterbytahun($tahun2)
+  {
+    $this->db->select('tbl_login.*');
+    $this->db->where('level = "Anggota"');
+    $this->db->where('year(tgl_bergabung)', $tahun2);
+    $this->db->order_by('kelas ASC');
+    $this->db->from('tbl_login');
+    $query = $this->db->get();
+
+    return $query->result();
+  }
 }

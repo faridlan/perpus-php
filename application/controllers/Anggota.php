@@ -22,6 +22,7 @@ class Anggota extends CI_Controller
 
   public function index()
   {
+    $this->data['tahun'] = $this->M_Anggota->gettahun();
     $this->data['idbo'] = $this->session->userdata('ses_id');
     // $this->data['user'] = $this->M_Admin->get_table('tbl_login');
     $this->data['user'] = $this->M_Admin->get_tableid('tbl_login', 'level', 'Anggota');
@@ -110,7 +111,7 @@ class Anggota extends CI_Controller
 
   public function edit()
   {
-    if ($this->session->userdata('level') == 'Petugas') {
+    if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
       if ($this->uri->segment('3') == '') {
         echo '<script>alert("halaman tidak ditemukan");window.location="' . base_url('anggota') . '";</script>';
       }
@@ -139,7 +140,7 @@ class Anggota extends CI_Controller
 
   public function detail()
   {
-    if ($this->session->userdata('level') == 'Petugas') {
+    if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
       if ($this->uri->segment('3') == '') {
         echo '<script>alert("halaman tidak ditemukan");window.location="' . base_url('anggota') . '";</script>';
       }
@@ -204,7 +205,7 @@ class Anggota extends CI_Controller
           'jurusan' => $jurusan
         );
         $this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
-        if ($this->session->userdata('level') == 'Petugas') {
+        if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
           $this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
@@ -233,7 +234,7 @@ class Anggota extends CI_Controller
         );
         $this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
 
-        if ($this->session->userdata('level') == 'Petugas') {
+        if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
           $this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
@@ -268,7 +269,7 @@ class Anggota extends CI_Controller
         );
         $this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
 
-        if ($this->session->userdata('level') == 'Petugas') {
+        if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
           $this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
@@ -296,7 +297,7 @@ class Anggota extends CI_Controller
         );
         $this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
 
-        if ($this->session->userdata('level') == 'Petugas') {
+        if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
           $this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
@@ -367,7 +368,7 @@ class Anggota extends CI_Controller
               'anggota_id' => $id,
               'nama' => $row['nama'],
               'user' => $row['user'],
-              'pass' => $row['pass'],
+              'pass' => md5($row['pass']),
               'level' => 'Anggota',
               'tempat_lahir' => $row['tempat_lahir'],
               'tgl_lahir' => $row['tgl_lahir'],
@@ -421,184 +422,41 @@ class Anggota extends CI_Controller
       // }
     }
     redirect('/anggota');
-
-    // if ($this->input->post('importSubmit')) {
-
-    //   $insertCount = $updateCount = $rowCount = $notAddCount = 0;
-    //   if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-    //     // echo "ANJING BERHASIL";
-    //     // Load CSV reader library
-    //     $this->load->library('CSVReader');
-
-    //     // Parse data from CSV file
-    //     $csvData = $this->csvreader->parse_csv($_FILES['file']['tmp_name']);
-    //     $id = $this->M_Admin->buat_kode('tbl_login', 'AG', 'id_login', 'ORDER BY id_login DESC LIMIT 1');
-
-    //     // Insert/update CSV data into database
-    //     if (!empty($csvData)) {
-    //       foreach ($csvData as $row) {
-    //         $rowCount++;
-
-    //         // Prepare data for DB insertion
-    //         $memData = array(
-    //           'anggota_id' => $id,
-    //           'nama' => $row['nama'],
-    //           'user' => $row['user'],
-    //           'pass' => $row['pass'],
-    //           'level' => 'Anggota',
-    //           'tempat_lahir' => $row['tempat_lahir'],
-    //           'tgl_lahir' => $row['tgl_lahir'],
-    //           'email' => $row['email'],
-    //           'telepon' => $row['telepon'],
-    //           'foto' => $row['foto'],
-    //           'jenkel' => $row['jenkel'],
-    //           'alamat' => $row['alamat'],
-    //           'tgl_bergabung' => date('Y-m-d'),
-    //           'kelas' => $row['kelas'],
-    //           'jurusan' => $row['jurusan']
-    //         );
-
-    //         // Check whether email already exists in the database
-    //         $con = array(
-    //           'where' => array(
-    //             'email' => $row['email']
-    //           ),
-    //           'returnType' => 'count'
-    //         );
-    //         $prevCount = $this->M_Anggota->getRows($con);
-
-    //         if ($prevCount > 0) {
-    //           // Update member data
-    //           $condition = array('email' => $row['email']);
-    //           $update = $this->M_Anggota->update($memData, $condition);
-
-    //           if ($update) {
-    //             $updateCount++;
-    //           }
-    //         } else {
-    //           // Insert member data
-    //           $insert = $this->M_Anggota->insert($memData);
-
-    //           if ($insert) {
-    //             $insertCount++;
-    //           }
-    //         }
-    //       }
-
-    //       // Status message with imported data count
-    //       $notAddCount = ($rowCount - ($insertCount + $updateCount));
-    //       $successMsg = 'Members imported successfully. Total Rows (' . $rowCount . ') | Inserted (' . $insertCount . ') | Updated (' . $updateCount . ') | Not Inserted (' . $notAddCount . ')';
-    //       $this->session->set_userdata('success_msg', $successMsg);
-    //     }
-    //   } else {
-    //     $this->session->set_userdata('error_msg', 'Error on file upload, please try again.');
-    //   }
-    //   // $this->form_validation->set_rules('file', 'CSV file', 'callback_file_check');
-    //   // if ($this->form_validation->run() == true) {
-    //   //   if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-    //   //     echo "ANJING BERHASIL";
-    //   //   } else {
-    //   //     echo 'hehe';
-    //   //   }
-    //   // } else {
-    //   //   echo "ANJING GA BERHASIL";
-    //   // }
-    // } else {
-    //   echo "ANJING TEU KAPENCET";
-    // }
-
-    // $this->load->helper(array('form', 'url'));
-
-    // $this->load->library('form_validation');
-
-    // if ($this->form_validation->run() == FALSE) {
-    //   echo "ANJING BERHASIL";
-    // } else {
-    //   echo "ANJING GA BERHASIL";
-    // }
-  }
-
-  public function excel()
-  {
-    if (isset($_FILES["file"]["name"])) {
-      // upload
-      $file_tmp = $_FILES['file']['tmp_name'];
-      $file_name = $_FILES['file']['name'];
-      $file_size = $_FILES['file']['size'];
-      $file_type = $_FILES['file']['type'];
-      // move_uploaded_file($file_tmp,"uploads/".$file_name); // simpan filenya di folder uploads
-
-      $object = PHPExcel_IOFactory::load($file_tmp);
-      $id = $this->M_Admin->buat_kode('tbl_login', 'AG', 'id_login', 'ORDER BY id_login DESC LIMIT 1');
-
-
-      foreach ($object->getWorksheetIterator() as $worksheet) {
-
-        $highestRow = $worksheet->getHighestRow();
-        $highestColumn = $worksheet->getHighestColumn();
-
-        for ($row = 1; $row <= $highestRow; $row++) {
-
-          $anggota_id = $id;
-          $nama = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-          $user = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-          $pass = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-          $level = 'Anggota';
-          $tempat_lahir = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
-          $tgl_lahir = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
-          $email = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
-          $telepon = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
-          $foto = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
-          $jenkel = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
-          $alamat = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
-          $tgl_bergabung = date('Y-m-d');
-          $kelas = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
-          $jurusan = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
-
-          $data[] = array(
-            'anggota_id' => $anggota_id,
-            'user' => $user,
-            'pass' => $pass,
-            'level' => $level,
-            'nama' => $nama,
-            'tempat_lahir' => $tempat_lahir,
-            'tgl_lahir' => $tgl_lahir,
-            'jenkel' => $jenkel,
-            'alamat' => $alamat,
-            'telepon' => $telepon,
-            'email' => $email,
-            'tgl_bergabung' => $tgl_bergabung,
-            'foto' => $foto,
-            'kelas' => $kelas,
-            'jurusan' => $jurusan
-          );
-        }
-      }
-
-      $this->db->insert_batch('tbl_login', $data);
-
-      $message = array(
-        'message' => '<div class="alert alert-success">Import file excel berhasil disimpan di database</div>',
-      );
-
-      $this->session->set_flashdata($message);
-      redirect('anggota');
-    } else {
-      $message = array(
-        'message' => '<div class="alert alert-danger">Import file gagal, coba lagi</div>',
-      );
-
-      $this->session->set_flashdata($message);
-      redirect('anggota');
-    }
-  }
-
-  public function addMany()
-  {
   }
 
   public function report()
   {
-    # code...
+    $tanggalawal = $this->input->post('tanggalawal');
+    $tanggalakhir = $this->input->post('tanggalakhir');
+    $tahun1 = $this->input->post('tahun1');
+    $bulanawal = $this->input->post('bulanawal');
+    $tahun2 = $this->input->post('tahun2');
+    $nilaifilter = $this->input->post('nilaifilter');
+
+    if ($nilaifilter == 1) {
+      $data['title'] = "Laporan Anggota Berdasarkan Tanggal";
+      $data['subtitle'] = "Dari Tanggal : " . $tanggalawal . ' s/d ' . $tanggalakhir;
+      $data['datafilter'] = $this->M_Anggota->filterbytanggal($tanggalawal, $tanggalakhir);
+      $this->load->library('pdf');
+      $this->pdf->setPaper('A4', 'landscape');
+      $this->pdf->filename = "laporan-anggota-berdasarkan-tanggal.pdf";
+      $this->pdf->load_view('user/anggota/print_report', $data);
+    } elseif ($nilaifilter == 2) {
+      $data['title'] = "Laporan Anggota Berdasarkan Bulan";
+      $data['subtitle'] = "Dari Bulan : " . $bulanawal . ' <br> Pada tahun : ' . $tahun1;
+      $data['datafilter'] = $this->M_Anggota->filterbybulan($tahun1, $bulanawal);
+      $this->load->library('pdf');
+      $this->pdf->setPaper('A4', 'landscape');
+      $this->pdf->filename = "laporan-anggota-berdasarkan-tanggal-bulan.pdf";
+      $this->pdf->load_view('user/anggota/print_report', $data);
+    } elseif ($nilaifilter == 3) {
+      $data['title'] = "Laporan Anggota Berdasarkan Tahun";
+      $data['subtitle'] = 'Tahun : ' . $tahun2;
+      $data['datafilter'] = $this->M_Anggota->filterbytahun($tahun2);
+      $this->load->library('pdf');
+      $this->pdf->setPaper('A4', 'landscape');
+      $this->pdf->filename = "laporan-anggota-berdasarkan-tahun.pdf";
+      $this->pdf->load_view('user/anggota/print_report', $data);
+    }
   }
 }

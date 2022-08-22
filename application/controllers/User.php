@@ -14,6 +14,16 @@ class User extends CI_Controller
 			$url = base_url('login');
 			redirect($url);
 		}
+
+		if ($this->session->userdata('level') == 'Anggota') {
+			$url = base_url('transaksi');
+			redirect($url);
+		}
+
+		if ($this->session->userdata('level') == 'Petugas') {
+			$url = base_url('dashboard');
+			redirect($url);
+		}
 	}
 
 	public function index()
@@ -101,7 +111,7 @@ class User extends CI_Controller
 
 	public function edit()
 	{
-		if ($this->session->userdata('level') == 'Petugas') {
+		if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 			if ($this->uri->segment('3') == '') {
 				echo '<script>alert("halaman tidak ditemukan");window.location="' . base_url('user') . '";</script>';
 			}
@@ -130,7 +140,7 @@ class User extends CI_Controller
 
 	public function detail()
 	{
-		if ($this->session->userdata('level') == 'Petugas') {
+		if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 			if ($this->uri->segment('3') == '') {
 				echo '<script>alert("halaman tidak ditemukan");window.location="' . base_url('user') . '";</script>';
 			}
@@ -191,7 +201,7 @@ class User extends CI_Controller
 					'alamat' => $alamat,
 				);
 				$this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
-				if ($this->session->userdata('level') == 'Petugas') {
+				if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
 					$this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
@@ -218,7 +228,7 @@ class User extends CI_Controller
 				);
 				$this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
 
-				if ($this->session->userdata('level') == 'Petugas') {
+				if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
 					$this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
@@ -253,7 +263,7 @@ class User extends CI_Controller
 				);
 				$this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
 
-				if ($this->session->userdata('level') == 'Petugas') {
+				if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
 					$this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
@@ -281,7 +291,7 @@ class User extends CI_Controller
 				);
 				$this->M_Admin->update_table('tbl_login', 'id_login', $id_login, $data);
 
-				if ($this->session->userdata('level') == 'Petugas') {
+				if ($this->session->userdata('level') == 'Petugas' || $this->session->userdata('level') == 'root') {
 
 					$this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
 					<p> Berhasil Update User : ' . $nama . ' !</p>
