@@ -13,6 +13,17 @@
         <?php if (!empty($this->session->flashdata())) {
             echo $this->session->flashdata('pesan');
         } ?>
+        <!-- Display status message -->
+        <?php if (!empty($success_msg)) { ?>
+            <div class="col-xs-12">
+                <div class="alert alert-success"><?php echo $success_msg; ?></div>
+            </div>
+        <?php } ?>
+        <?php if (!empty($error_msg)) { ?>
+            <div class="col-xs-12">
+                <div class="alert alert-danger"><?php echo $error_msg; ?></div>
+            </div>
+        <?php } ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -20,6 +31,7 @@
                         <a href="anggota/tambah"><button class="btn btn-primary"><i class="fa fa-plus"> </i> Tambah User</button></a>
                         <!-- <a href="anggota/tambah"><button class="btn btn-danger"><i class="fa fa-download"> </i> Laporan</button></a> -->
                         <a data-toggle="modal" data-target="#TableBuku"><button class="btn btn-danger"><i class="fa fa-download"> </i> Laporan</button></a>
+                        <a data-toggle="modal" data-target="#TableBuku1"><button class="btn btn-primary"><i class="fa fa-plux"> </i> Tambah CSV</button></a>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -123,6 +135,33 @@
                                 </div>
                             </div>
                         </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+
+    <!--modal import -->
+    <div class="modal fade" id="TableBuku1">
+        <div class="modal-dialog" style="width:40%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add Buku</h4>
+                </div>
+                <div id="modal_body" class="modal-body fileSelection1">
+                    <form action="<?php echo base_url('anggota/import'); ?>" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" />
+                        <input type="submit" class="btn btn-primary" name="importSubmit" value="IMPORT">
                     </form>
                 </div>
                 <div class="modal-footer">

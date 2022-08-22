@@ -10,10 +10,14 @@ class Anggota extends CI_Controller
     $this->data['CI'] = &get_instance();
     $this->load->helper(array('form', 'url'));
     $this->load->model('M_Admin');
+    $this->load->model('M_Anggota');
     if ($this->session->userdata('masuk_sistem_rekam') != TRUE) {
       $url = base_url('login');
       redirect($url);
     }
+
+    $this->load->library('form_validation');
+    // $this->load->helper(array('file', 'url'));
   }
 
   public function index()
@@ -324,9 +328,128 @@ class Anggota extends CI_Controller
     redirect(base_url('anggota'));
   }
 
+  public function importView()
+  {
+
+    $this->data['title_web'] = 'Data User ';
+    $this->load->view('user/anggota/import_csv', $this->data);
+  }
+
+  public function import()
+  {
+    $memData = array();
+
+    // If import request is submitted
+    // if ($this->input->post('importSubmit')) {
+    //   // Form field validation rules
+    //   $this->form_validation->set_rules('file', 'CSV file', 'callback_file_check');
+
+    //   // Validate submitted form data
+    //   if ($this->form_validation->run() == true) {
+    //     $insertCount = $updateCount = $rowCount = $notAddCount = 0;
+
+    //     // If file uploaded
+    //     if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+    //       // Load CSV reader library
+    //       $this->load->library('CSVReader');
+
+    //       // Parse data from CSV file
+    //       $csvData = $this->csvreader->parse_csv($_FILES['file']['tmp_name']);
+    //       $id = $this->M_Admin->buat_kode('tbl_login', 'AG', 'id_login', 'ORDER BY id_login DESC LIMIT 1');
+
+    //       // Insert/update CSV data into database
+    //       if (!empty($csvData)) {
+    //         foreach ($csvData as $row) {
+    //           $rowCount++;
+
+    //           // Prepare data for DB insertion
+    //           $memData = array(
+    //             'anggota_id' => $id,
+    //             'nama' => $row['nama'],
+    //             'user' => $row['user'],
+    //             'pass' => $row['pass'],
+    //             'level' => 'Anggota',
+    //             'tempat_lahir' => $row['tempat_lahir'],
+    //             'tgl_lahir' => $row['tgl_lahir'],
+    //             'email' => $row['email'],
+    //             'telepon' => $row['telepon'],
+    //             'foto' => $row['foto'],
+    //             'jenkel' => $row['jenkel'],
+    //             'alamat' => $row['alamat'],
+    //             'tgl_bergabung' => date('Y-m-d'),
+    //             'kelas' => $row['kelas'],
+    //             'jurusan' => $row['jurusan']
+    //           );
+
+    //           // Check whether email already exists in the database
+    //           $con = array(
+    //             'where' => array(
+    //               'email' => $row['email']
+    //             ),
+    //             'returnType' => 'count'
+    //           );
+    //           $prevCount = $this->M_Anggota->getRows($con);
+
+    //           if ($prevCount > 0) {
+    //             // Update member data
+    //             $condition = array('email' => $row['email']);
+    //             $update = $this->M_Anggota->update($memData, $condition);
+
+    //             if ($update) {
+    //               $updateCount++;
+    //             }
+    //           } else {
+    //             // Insert member data
+    //             $insert = $this->M_Anggota->insert($memData);
+
+    //             if ($insert) {
+    //               $insertCount++;
+    //             }
+    //           }
+    //         }
+
+    //         // Status message with imported data count
+    //         $notAddCount = ($rowCount - ($insertCount + $updateCount));
+    //         $successMsg = 'Members imported successfully. Total Rows (' . $rowCount . ') | Inserted (' . $insertCount . ') | Updated (' . $updateCount . ') | Not Inserted (' . $notAddCount . ')';
+    //         $this->session->set_userdata('success_msg', $successMsg);
+    //       }
+    //     } else {
+    //       $this->session->set_userdata('error_msg', 'Error on file upload, please try again.');
+    //     }
+    //   } else {
+    //     $this->session->set_userdata('error_msg', 'Invalid file, please select only CSV file.');
+    //   }
+    // }
+    // redirect('/anggota');
+
+    if ($this->input->post('importSubmit')) {
+      $this->form_validation->set_rules('file', 'CSV file', 'callback_file_check');
+      if ($this->form_validation->run() == false) {
+        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+          echo "ANJING BERHASIL";
+        } else {
+          echo 'hehe';
+        }
+      } else {
+        echo "ANJING GA BERHASIL";
+      }
+    } else {
+      echo "ANJING TEU KAPENCET";
+    }
+
+    // $this->load->helper(array('form', 'url'));
+
+    // $this->load->library('form_validation');
+
+    // if ($this->form_validation->run() == FALSE) {
+    //   echo "ANJING BERHASIL";
+    // } else {
+    //   echo "ANJING GA BERHASIL";
+    // }
+  }
+
   public function addMany()
   {
-    # code...
   }
 
   public function report()
