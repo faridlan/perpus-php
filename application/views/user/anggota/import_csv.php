@@ -24,7 +24,7 @@
     <!-- File upload form -->
     <div class="col-md-12" id="importFrm" style="display: none;">
       <form action="<?php echo base_url('anggota/import'); ?>" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" />
+        <input type="file" name="file" accept=".csv" required />
         <input type="submit" class="btn btn-primary" name="importSubmit" value="IMPORT">
       </form>
     </div>

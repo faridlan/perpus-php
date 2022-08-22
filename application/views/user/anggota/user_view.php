@@ -30,8 +30,8 @@
                     <div class="box-header with-border">
                         <a href="anggota/tambah"><button class="btn btn-primary"><i class="fa fa-plus"> </i> Tambah User</button></a>
                         <!-- <a href="anggota/tambah"><button class="btn btn-danger"><i class="fa fa-download"> </i> Laporan</button></a> -->
+                        <a data-toggle="modal" data-target="#TableBuku1"><button class="btn btn-primary"><i class="fa fa-plus"> </i> Tambah CSV</button></a>
                         <a data-toggle="modal" data-target="#TableBuku"><button class="btn btn-danger"><i class="fa fa-download"> </i> Laporan</button></a>
-                        <a data-toggle="modal" data-target="#TableBuku1"><button class="btn btn-primary"><i class="fa fa-plux"> </i> Tambah CSV</button></a>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -159,9 +159,22 @@
                     <h4 class="modal-title">Add Buku</h4>
                 </div>
                 <div id="modal_body" class="modal-body fileSelection1">
-                    <form action="<?php echo base_url('anggota/import'); ?>" method="post" enctype="multipart/form-data">
-                        <input type="file" name="file" />
+                    <!-- <form action="<?php echo base_url('anggota/import'); ?>" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" accept=".csv" required />
                         <input type="submit" class="btn btn-primary" name="importSubmit" value="IMPORT">
+                    </form> -->
+                    <form action="<?php echo base_url('anggota/import'); ?>" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Level</label>
+                                    <input type="file" name="file" class="form-control" accept=".csv" required />
+                                </div>
+                                <div class="pull-left">
+                                    <input type="submit" class="btn btn-primary" name="importSubmit" value="Submit">
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
