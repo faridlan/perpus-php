@@ -412,10 +412,16 @@ class Anggota extends CI_Controller
           // Status message with imported data count
           $notAddCount = ($rowCount - ($insertCount + $updateCount));
           $successMsg = 'Members imported successfully. Total Rows (' . $rowCount . ') | Inserted (' . $insertCount . ') | Updated (' . $updateCount . ') | Not Inserted (' . $notAddCount . ')';
-          $this->session->set_userdata('success_msg', $successMsg);
+          // $this->session->set_userdata('success_msg', $successMsg);
+          $this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-success">
+          <p> Berhasil Insert Many Anggota !</p>
+          </div></div>');
         }
       } else {
         $this->session->set_userdata('error_msg', 'Error on file upload, please try again.');
+        $this->session->set_flashdata('pesan', '<div id="notifikasi"><div class="alert alert-danger">
+          <p>Error on file upload, please try again</p>
+          </div></div>');
       }
       // } else {
       //   $this->session->set_userdata('error_msg', 'Invalid file, please select only CSV file.');

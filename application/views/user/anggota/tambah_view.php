@@ -40,13 +40,20 @@
                                         <label>Password</label>
                                         <input type="password" class="form-control" name="pass" required="required" placeholder="Password">
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label>Level</label>
-                                        <select name="level" class="form-control" required="required">
-                                            <option>Petugas</option>
-                                            <option>Anggota</option>
+                                    <div class="form-group">
+                                        <label>Kelas</label>
+                                        <select name="kelas" class="form-control" required="required">
+                                            <option>XI</option>
+                                            <option>XII</option>
                                         </select>
-                                    </div> -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jurusan</label>
+                                        <select name="jurusan" class="form-control" required="required">
+                                            <option>RPL1</option>
+                                            <option>Jaringan1</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -71,20 +78,6 @@
                                     <div class="form-group">
                                         <label>Alamat</label>
                                         <textarea class="form-control" name="alamat" required="required"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Kelas</label>
-                                        <select name="kelas" class="form-control" required="required">
-                                            <option>XI</option>
-                                            <option>XII</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Jurusan</label>
-                                        <select name="jurusan" class="form-control" required="required">
-                                            <option>RPL1</option>
-                                            <option>Jaringan1</option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
